@@ -1,0 +1,20 @@
+{
+  "name": "drawroi",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.7.0"
+  },
+  "dependencies": {
+    "@svgdotjs/svg.draggable.js": "^3.0.2",
+    "@svgdotjs/svg.js": "^3.1.2",
+    "lodash-es": "^4.17.21"
+  }
+}
