@@ -1,7 +1,6 @@
 {
-  "name": "drawroi",
+  "name": "drawsvg",
   "version": "1.0.0",
-  "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
@@ -16,5 +15,15 @@
     "@svgdotjs/svg.draggable.js": "^3.0.2",
     "@svgdotjs/svg.js": "^3.1.2",
     "lodash-es": "^4.17.21"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omognuni/drawSVG.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omognuni/drawSVG/issues"
+  },
+  "homepage": "https://github.com/omognuni/drawSVG#readme",
+  "description": ""
 }
