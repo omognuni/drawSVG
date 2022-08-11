@@ -1,48 +1,69 @@
 import { SVG, extend as SVGextend, Element as SVGElement } from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.draggable.js';
 
-
+const container = document.querySelector('.container');
 const draw = SVG().addTo('.container').size('100%', '100%');
 const deletebtn = document.querySelector('.delete');
 const rectbtn = document.querySelector('.rect');
 
 
 let drawing = false;
-let rect = false;
+let move = false;
+let shapeType;
 let count = 0;
+let activeObj = '';
 
-let left;
-let top;
+
+document.addEventListener('keydown', function (e) {
+    console.log(e.key);
+})
+
+document.addEventListener('keydown', function (e) {
+    if (e.key == 'n') {
+        drawHandler();
+    }
+})
 
 rectbtn.addEventListener('click', function (e) {
-    drawing = !drawing;
-
-    if (drawing) {
-        draw.on('click', startDraw);
-    }
-    else draw.off('click');
-
+    drawHandler(shapeType);
 })
 
 deletebtn.addEventListener('click', function () {
     draw.clear();
 });
 
-const startDraw = function (e) {
-    left = e.offsetX;
-    top = e.offsetY;
-    console.log(e.target)
-    drawer();
+
+const drawHandler = function (shapeType) {
+
+    drawing = !drawing;
+    console.log(count);
+
+    if (drawing) {
+        container.style.cursor = "crosshair";
+        draw.on('click', rectDraw);
+    }
+
+    if (!drawing) {
+        drawStop();
+    }
 }
 
-// const
+const drawStop = function () {
+    draw.off('mousemove');
+    draw.off('click');
+    container.style.cursor = '';
+}
 
-const drawer = function () {
+const rectDraw = function (e) {
+    let left = e.offsetX;
+    let top = e.offsetY;
     let x, y, w, h;
     let box;
-    rect = !rect;
 
-    if (rect) {
+    move = !move;
+
+    if (move) {
+
         draw.on('mousemove', function (e) {
             x = left
             y = top
@@ -59,23 +80,30 @@ const drawer = function () {
             }
             else h = e.offsetY - top;
 
-            if (document.querySelector(`.id-${count}`)) document.querySelector(`.id-${count}`).remove();
-            box = draw.rect(w, h).move(x, y).addClass(`id-${count}`).fill('none').stroke('black');
+            if (document.querySelector(`#rect_${count}`)) document.querySelector(`#rect_${count}`).remove();
+            box = draw.rect(w, h).move(x, y).fill('none').stroke('black').id(`rect_${count}`);
 
             box.on('mouseover', e => {
                 if (!drawing)
                     box.fill({ color: '#ccc', opacity: 1 }).stroke('black');
+                activeObj = e.target.id;
             });
-            box.on('mouseleave', e => box.fill({ color: '#ccc', opacity: 0 }).stroke('black'));
+            box.on('mouseleave', e => {
+                box.fill({ color: '#ccc', opacity: 0 }).stroke('black');
+                activeObj = '';
+            });
             box.draggable();
-        })
+        });
     }
-
-    if (!rect) {
+    if (!move) {
         count++;
-        draw.off('mousemove');
-        draw.off('click');
+        drawStop();
         drawing = !drawing;
     }
-
 }
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Delete') {
+        if (activeObj !== '') document.querySelector(`#${activeObj}`).remove();
+    }
+})
