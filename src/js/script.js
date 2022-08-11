@@ -24,19 +24,30 @@ class canvasView {
 
     
     _addDrawHandler() {
+
+        // start drawing with n key
         document.addEventListener('keydown', (e) => {
             if (e.key == 'n') {
                 this._drawStart();
             }
         })
         
+        // start drawing
         this._rectbtn.addEventListener('click', () => {
             this._drawStart();
         })
         
+        // delete all
         this._deletebtn.addEventListener('click', () => {
             this._draw.clear();
         });
+
+        // delete active figure
+        document.addEventListener('keydown',  (e) => {
+            if (e.key === 'Delete') {
+                if (this._activeObj !== '') document.querySelector(`#${this._activeObj}`).remove();
+            }
+        })
 
     }
 
